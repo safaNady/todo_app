@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/cores/utils/colors_manager.dart';
+import 'package:todo_app/ui/screens/home/add_task_bottom_sheet/add_task_bottom_sheet.dart';
 import 'package:todo_app/ui/screens/home/tabs/settings/settings_tab.dart';
 import 'package:todo_app/ui/screens/home/tabs/tasks/tasks_tab.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  GlobalKey<TasksTabState> tasksTabKey = GlobalKey();
   int currentIndex = 0;
-  List<Widget> tabs = [TasksTab(), SettingsTab()];
+  List<Widget> tabs = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tabs = [
+      TasksTab(
+        key: tasksTabKey,
+      ),
+      SettingsTab(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('ToDo List'),
       ),
-      bottomNavigationBar: buildBottomNavigationBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildFab(),
+      bottomNavigationBar: buildBottomNavBar(),
       body: tabs[currentIndex],
     );
   }
 
-  Widget buildBottomNavigationBar() => ClipRRect(
+  Widget buildBottomNavBar() => ClipRRect(
         clipBehavior: Clip.antiAlias,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(15),
@@ -44,13 +57,17 @@ class _HomeScreenState extends State<HomeScreen> {
               items: const [
                 BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Tasks'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.settings_outlined), label: 'Settings')
+                    icon: Icon(Icons.settings_outlined), label: 'Settings'),
               ]),
         ),
       );
-}
 
-Widget buildFab() => FloatingActionButton(
-      onPressed: () {},
-      child: Icon(Icons.add),
-    );
+  Widget buildFab() => FloatingActionButton(
+        onPressed: () async {
+          await AddTaskBottomSheet.show(context);
+
+          tasksTabKey.currentState?.getTodosFromFireStore();
+        },
+        child: const Icon(Icons.add),
+      );
+}

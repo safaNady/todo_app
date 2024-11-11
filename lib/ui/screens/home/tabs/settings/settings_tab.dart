@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/cores/utils/app_styles.dart';
 import 'package:todo_app/cores/utils/colors_manager.dart';
+import 'package:todo_app/providors/setting_providor.dart';
 
 typedef OnChanged = void Function(String?);
 
@@ -17,6 +19,7 @@ class _SettingsTabState extends State<SettingsTab> {
 
   @override
   Widget build(BuildContext context) {
+    var myProvider = Provider.of<SettingsProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -26,19 +29,24 @@ class _SettingsTabState extends State<SettingsTab> {
             'Theme',
             style: LightAppStyle.settingsTabLabel,
           ),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
-          buildSettingsTabComponent(
-            'Light',
-            'Dark',
-            selectedTheme,
-            (newTheme) {
-              selectedTheme = newTheme ?? selectedTheme;
-              setState(() {});
+          InkWell(
+            onTap: () {
+              myProvider.changeAppTheme(ThemeMode.light);
             },
+            child: buildSettingsTabComponent(
+              'Light',
+              'Dark',
+              selectedTheme,
+              (newTheme) {
+                selectedTheme = newTheme ?? selectedTheme;
+                setState(() {});
+              },
+            ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Text(
