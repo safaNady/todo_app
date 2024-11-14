@@ -10,7 +10,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  //await FirebaseFirestore.instance.disableNetwork();
   runApp(ChangeNotifierProvider(
-      create: (context) => SettingsProvider(), child: const MyApp()));
+      create: (context) => SettingsProvider(), child: MyApp()));
 }

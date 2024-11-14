@@ -36,7 +36,7 @@ class AppTheme {
         foregroundColor: ColorsManager.white,
       ),
       cardTheme: const CardTheme(
-        color: ColorsManager.darkCard,
+        color: ColorsManager.white,
       ),
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: ColorsManager.white,
