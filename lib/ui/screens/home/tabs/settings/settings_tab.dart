@@ -32,19 +32,18 @@ class _SettingsTabState extends State<SettingsTab> {
           const SizedBox(
             height: 4,
           ),
-          InkWell(
-            onTap: () {
-              myProvider.changeAppTheme(ThemeMode.light);
+          buildSettingsTabComponent(
+            'Light',
+            'Dark',
+            selectedTheme,
+            (newTheme) {
+              if (newTheme != null) {
+                selectedTheme = newTheme;
+                myProvider.changeAppTheme(
+                  selectedTheme == 'Light' ? ThemeMode.light : ThemeMode.dark,
+                );
+              }
             },
-            child: buildSettingsTabComponent(
-              'Light',
-              'Dark',
-              selectedTheme,
-              (newTheme) {
-                selectedTheme = newTheme ?? selectedTheme;
-                setState(() {});
-              },
-            ),
           ),
           const SizedBox(
             height: 12,
@@ -53,7 +52,7 @@ class _SettingsTabState extends State<SettingsTab> {
             'Language',
             style: LightAppStyle.settingsTabLabel,
           ),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           buildSettingsTabComponent(
@@ -74,7 +73,7 @@ class _SettingsTabState extends State<SettingsTab> {
       String item1, String item2, String textView, OnChanged onChanged) {
     return Container(
         height: 48,
-        padding: EdgeInsets.all(6),
+        padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.onPrimary,
             border: Border.all(width: 1, color: ColorsManager.blue)),
@@ -83,7 +82,7 @@ class _SettingsTabState extends State<SettingsTab> {
           children: [
             Text(textView, style: LightAppStyle.selectedItemLabel),
             DropdownButton<String>(
-              underline: SizedBox(),
+              underline: const SizedBox(),
               borderRadius: BorderRadius.circular(12),
               items: <String>[item1, item2].map((String value) {
                 return DropdownMenuItem<String>(
@@ -91,16 +90,10 @@ class _SettingsTabState extends State<SettingsTab> {
                   child: Text(value),
                 );
               }).toList(),
+              value: textView,
               onChanged: onChanged,
             ),
           ],
         ));
   }
-}
-
-class MenuItem {
-  String item1;
-  String item2;
-
-  MenuItem({required this.item1, required this.item2});
 }

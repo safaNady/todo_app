@@ -1,0 +1,10 @@
+{
+  "title": "To-Do List",
+  "settings": "Settings",
+  "theme": "Theme",
+  "language": "Language",
+  "add_task": "Add Task",
+  "edit_task": "Edit Task",
+  "delete_task": "Delete Task",
+  "save": "Save"
+}
